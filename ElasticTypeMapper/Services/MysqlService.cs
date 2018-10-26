@@ -7,7 +7,7 @@ namespace ElasticTypeMapper.Services
 {
     public class MysqlService
     {
-        private readonly string _connStr = "server=localhost;user=root;database=slydepaydb;port=3306;password=password";
+        private readonly string _connStr = "server=localhost;user=root;database=*****;port=3306;password=password";
         private ElasticService _elasticService = new ElasticService();
         private const string elasticType = "item";
 
