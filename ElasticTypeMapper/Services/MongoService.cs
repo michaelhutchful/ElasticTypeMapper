@@ -1,7 +1,7 @@
 ﻿using MongoDB.Driver;
 using Nest;
 using Newtonsoft.Json;
-using System;
+using NLog;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,22 +10,23 @@ namespace ElasticTypeMapper.Services
 {
     public class MongoService
     {
-        private readonly MongoClient _client = new MongoClient("mongodb://localhost");
         private readonly ElasticService _elasticService = new ElasticService();
         private const string ElasticType = "item";
+        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public MongoService()
         {
         }
 
-        public async Task<List<string>> GetListOfDataBasesAsync()
+        public async Task<List<string>> GetListOfDataBasesAsync(string elasticUrl, string mongoUrl)
         {
+            MongoClient client = new MongoClient(mongoUrl);
             Dictionary<string, object> namespaceMap = new Dictionary<string, object>();
 
             var databaseNames = new List<string>();
-            var cursor = await _client.ListDatabaseNamesAsync();
+            var cursor = await client.ListDatabaseNamesAsync();
 
-            Console.WriteLine("Getting Databases");
+            _logger.Info("Getting Databases");
 
             await cursor.ForEachAsync(db =>
             {
@@ -37,11 +38,11 @@ namespace ElasticTypeMapper.Services
                 }
             });
 
-            Console.WriteLine("Creating Elastic Indices");
+            _logger.Info("Creating Elastic Indices");
 
             foreach (var databaseName in databaseNames)
             {
-                var collectionCursor = await _client.GetDatabase(databaseName).ListCollectionNamesAsync();
+                var collectionCursor = await client.GetDatabase(databaseName).ListCollectionNamesAsync();
                 var listOfMapperTasks = new List<Task<ICreateIndexResponse>>();
                 await collectionCursor.ForEachAsync(collection =>
                 {
@@ -51,7 +52,8 @@ namespace ElasticTypeMapper.Services
                     {
                         { "rename",databaseName+ collection + "." + ElasticType }
                     };
-                    listOfMapperTasks.Add(_elasticService.CreateMapperAsync(databaseName + collection, ElasticType));
+                    listOfMapperTasks.Add(_elasticService.CreateMapperAsync
+                        (databaseName + collection, ElasticType, elasticUrl));
                     namespaceMap.Add(collecionKey, kv);
                 });
 
@@ -61,7 +63,7 @@ namespace ElasticTypeMapper.Services
 
                     if (!result.IsValid)
                     {
-                        Console.WriteLine(result.ServerError.Error);
+                        _logger.Warn(result.ServerError.Error);
                     }
                 }
             }
@@ -69,7 +71,7 @@ namespace ElasticTypeMapper.Services
             {
                 { "namespaces", namespaceMap }
             };
-            Console.WriteLine(JsonConvert.SerializeObject(finalMap, Formatting.Indented));
+            _logger.Info(JsonConvert.SerializeObject(finalMap, Formatting.Indented));
             return databaseNames.ToList();
         }
     }

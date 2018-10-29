@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ElasticTypeMapper": {
+      "commandName": "Project",
+      "commandLineArgs": "--sqlSchema slydepaydb --sourceDb 0"
+    }
+  }
+}
