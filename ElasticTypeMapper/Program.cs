@@ -59,7 +59,7 @@ namespace ElasticTypeMapper
                 }
                 else if (string.IsNullOrWhiteSpace(elasticUrl))
                 {
-                    logger.Error("You must set an Elastic Search URL, you can do this in appsettings.json or " +
+                    Console.WriteLine("You must set an Elastic Search URL, you can do this in appsettings.json or " +
                         "command line argument --esUrl");
                 }
 
@@ -72,14 +72,14 @@ namespace ElasticTypeMapper
                 switch (databaseType)
                 {
                     case DatabaseType.MySql:
-                        logger.Info("Mapping using MySql");
+                        Console.WriteLine("Mapping using MySql");
                         await MapUsingMySql
                         (logger, appSettings, sqlHostOption, sqlUserOption, sqlSchemaOption, sqlPasswordOption,
                         sqlPortOption, elasticUrl);
                         break;
 
                     case DatabaseType.Mongo:
-                        logger.Info("Mapping using MongoDb");
+                        Console.WriteLine("Mapping using MongoDb");
                         await MapUsingMongoAsync(mongoUrlOption, appSettings, logger, elasticUrl);
                         break;
 
@@ -90,7 +90,7 @@ namespace ElasticTypeMapper
             });
 
             app.Execute(args);
-            logger.Info("Press any key to exit");
+            Console.WriteLine("Press any key to exit");
             Console.ReadLine();
         }
 
@@ -174,9 +174,9 @@ namespace ElasticTypeMapper
                     "command line argument --sqlPort");
             }
 
-            logger.Info("MySql Host: " + sqlHost);
-            logger.Info("MySql User: " + sqlUser);
-            logger.Info("MySql Schema/Database: " + sqlSchema);
+            Console.WriteLine("MySql Host: " + sqlHost);
+            Console.WriteLine("MySql User: " + sqlUser);
+            Console.WriteLine("MySql Schema/Database: " + sqlSchema);
 
             var mySqlService = new MysqlService(sqlHost, sqlUser, sqlSchema, sqlPassword, sqlPort);
             await mySqlService.GetAllTablesAsync(elasticUrl);

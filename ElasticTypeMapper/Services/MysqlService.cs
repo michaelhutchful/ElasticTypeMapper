@@ -31,7 +31,7 @@ namespace ElasticTypeMapper.Services
             var connString =
                 $"server={SqlHost};user={SqlUser};database={SqlSchema};port={SqlPort};password={SqlPassword}";
             var tableNames = new List<string>();
-            _logger.Info(Properties.Resources.ConnectingToMySql);
+            Console.WriteLine(Properties.Resources.ConnectingToMySql);
             MySqlConnection conn = new MySqlConnection(connString);
             await conn.OpenAsync();
             MySqlCommand cmd = new MySqlCommand(Properties.Resources.ShowTablesQuery, conn);
@@ -46,7 +46,7 @@ namespace ElasticTypeMapper.Services
             }
 
             await conn.CloseAsync();
-            _logger.Info(Properties.Resources.SQLComplete);
+            Console.WriteLine(Properties.Resources.SQLComplete);
         }
     }
 }

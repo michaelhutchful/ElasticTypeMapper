@@ -14,7 +14,7 @@ namespace ElasticTypeMapper.Services
         {
             var settings = new ConnectionSettings(new Uri(elasticAddress));
             var client = new ElasticClient(settings);
-            _logger.Info($"Creating Index: {index} and Type: {elasticType}");
+            Console.WriteLine($"Creating Index: {index} and Type: {elasticType}");
             var indexCreationResult = await client.CreateIndexAsync(index, c => c
                  .Mappings(mappings => mappings.Map<dynamic>(elasticType, m => m
                       .DynamicTemplates(d => d

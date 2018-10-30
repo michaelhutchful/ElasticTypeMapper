@@ -2,6 +2,7 @@
 using Nest;
 using Newtonsoft.Json;
 using NLog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace ElasticTypeMapper.Services
             var databaseNames = new List<string>();
             var cursor = await client.ListDatabaseNamesAsync();
 
-            _logger.Info("Getting Databases");
+            Console.WriteLine("Getting Databases");
 
             await cursor.ForEachAsync(db =>
             {
@@ -38,7 +39,7 @@ namespace ElasticTypeMapper.Services
                 }
             });
 
-            _logger.Info("Creating Elastic Indices");
+            Console.WriteLine("Creating Elastic Indices");
 
             foreach (var databaseName in databaseNames)
             {
@@ -71,7 +72,7 @@ namespace ElasticTypeMapper.Services
             {
                 { "namespaces", namespaceMap }
             };
-            _logger.Info(JsonConvert.SerializeObject(finalMap, Formatting.Indented));
+            Console.WriteLine(JsonConvert.SerializeObject(finalMap, Formatting.Indented));
             return databaseNames.ToList();
         }
     }
