@@ -3,14 +3,14 @@ WORKDIR /app
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY ElasticTypeMapper/ElasticTypeMapper.csproj ElasticTypeMapper/
+COPY ElasticTypeMapper.csproj ElasticTypeMapper/
 RUN dotnet restore ElasticTypeMapper/ElasticTypeMapper.csproj
 COPY . .
 WORKDIR /src/ElasticTypeMapper
-RUN dotnet build ElasticTypeMapper.csproj -c Release -o /app
+RUN dotnet build ElasticTypeMapper.csproj -c Release -f netcoreapp2.1 -r ubuntu.16.04-x64 -o /app
 
 FROM build AS publish
-RUN dotnet publish ElasticTypeMapper.csproj -c Release -o /app
+RUN dotnet publish -c Release -f netcoreapp2.1 -r ubuntu.16.04-x64
 
 FROM base AS final
 WORKDIR /app
