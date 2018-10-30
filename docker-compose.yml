@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  elastictypemapper:
+    image: ${DOCKER_REGISTRY}elastictypemapper
+    build:
+      context: .
+      dockerfile: ElasticTypeMapper/Dockerfile
