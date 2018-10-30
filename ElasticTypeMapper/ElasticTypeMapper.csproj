@@ -17,6 +17,7 @@
     <PackageReference Include="MySql.Data" Version="8.0.13" />
     <PackageReference Include="NEST" Version="6.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Packaging.Targets" Version="0.1.48" />
     <DotNetCliToolReference Include="dotnet-deb" Version="0.1.1-*" />
   </ItemGroup>
 
