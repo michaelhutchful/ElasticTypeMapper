@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -15,7 +14,6 @@ namespace ElasticTypeMapper.Services
         public string SqlPort { get; set; }
 
         private readonly ElasticService _elasticService = new ElasticService();
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public MysqlService(string sqlHost, string sqlUser, string sqlSchema, string sqlPassword, string sqlPort)
         {

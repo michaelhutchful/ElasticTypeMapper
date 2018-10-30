@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <ApplicationIcon />
@@ -17,7 +17,6 @@
     <PackageReference Include="MySql.Data" Version="8.0.13" />
     <PackageReference Include="NEST" Version="6.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NLog.Config" Version="4.5.10" />
     <DotNetCliToolReference Include="dotnet-deb" Version="0.1.1-*" />
   </ItemGroup>
 

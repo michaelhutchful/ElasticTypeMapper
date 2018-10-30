@@ -1,7 +1,6 @@
 ﻿using MongoDB.Driver;
 using Nest;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,6 @@ namespace ElasticTypeMapper.Services
     {
         private readonly ElasticService _elasticService = new ElasticService();
         private const string ElasticType = "item";
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
         public MongoService()
         {
@@ -64,7 +62,7 @@ namespace ElasticTypeMapper.Services
 
                     if (!result.IsValid)
                     {
-                        _logger.Warn(result.ServerError.Error);
+                        Console.WriteLine(result.ServerError.Error);
                     }
                 }
             }

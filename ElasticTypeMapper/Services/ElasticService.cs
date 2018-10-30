@@ -1,5 +1,4 @@
 ﻿using Nest;
-using NLog;
 using System;
 using System.Threading.Tasks;
 
@@ -7,8 +6,6 @@ namespace ElasticTypeMapper.Services
 {
     public class ElasticService
     {
-        private readonly Logger _logger = LogManager.GetCurrentClassLogger();
-
         public async Task<ICreateIndexResponse> CreateMapperAsync
             (string index, string elasticType, string elasticAddress)
         {

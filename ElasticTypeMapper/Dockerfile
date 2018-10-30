@@ -3,7 +3,7 @@ WORKDIR /app
 
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
-COPY ElasticTypeMapper/ElasticTypeMapper.csproj ElasticTypeMapper/
+COPY ElasticTypeMapper.csproj ElasticTypeMapper/
 RUN dotnet restore ElasticTypeMapper/ElasticTypeMapper.csproj
 COPY . .
 WORKDIR /src/ElasticTypeMapper

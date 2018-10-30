@@ -10,8 +10,6 @@ namespace ElasticTypeMapper
     {
         private static void Main(string[] args)
         {
-            var logger = NLog.LogManager.GetCurrentClassLogger();
-
             var appSettings = new AppSettings();
             var app = new CommandLineApplication
             {
@@ -74,13 +72,13 @@ namespace ElasticTypeMapper
                     case DatabaseType.MySql:
                         Console.WriteLine("Mapping using MySql");
                         await MapUsingMySql
-                        (logger, appSettings, sqlHostOption, sqlUserOption, sqlSchemaOption, sqlPasswordOption,
+                        (appSettings, sqlHostOption, sqlUserOption, sqlSchemaOption, sqlPasswordOption,
                         sqlPortOption, elasticUrl);
                         break;
 
                     case DatabaseType.Mongo:
                         Console.WriteLine("Mapping using MongoDb");
-                        await MapUsingMongoAsync(mongoUrlOption, appSettings, logger, elasticUrl);
+                        await MapUsingMongoAsync(mongoUrlOption, appSettings, elasticUrl);
                         break;
 
                     default:
@@ -95,7 +93,7 @@ namespace ElasticTypeMapper
         }
 
         private static async Task MapUsingMongoAsync
-            (CommandOption mongoUrlOption, AppSettings appSettings, NLog.Logger logger, string elasticUrl)
+            (CommandOption mongoUrlOption, AppSettings appSettings, string elasticUrl)
         {
             var mongoUrl = appSettings.MongoUrl;
 
@@ -105,7 +103,7 @@ namespace ElasticTypeMapper
             }
             else if (string.IsNullOrWhiteSpace(mongoUrl))
             {
-                logger.Error("You must set a mongo address, you can do this in appsettings.json or command" +
+                Console.WriteLine("You must set a mongo address, you can do this in appsettings.json or command" +
                     " line argument --mongoUrl");
             }
             MongoService mongoService = new MongoService();
@@ -113,7 +111,7 @@ namespace ElasticTypeMapper
         }
 
         private static async Task MapUsingMySql
-            (NLog.Logger logger, AppSettings appSettings, CommandOption sqlHostOption,
+            (AppSettings appSettings, CommandOption sqlHostOption,
             CommandOption sqlUserOption, CommandOption sqlSchemaOption, CommandOption sqlPasswordOption,
             CommandOption sqlPortOption, string elasticUrl)
         {
@@ -129,7 +127,7 @@ namespace ElasticTypeMapper
             }
             else if (string.IsNullOrWhiteSpace(sqlHost))
             {
-                logger.Error("You must set a host address, you can do this in appsettings.json or command" +
+                Console.WriteLine("You must set a host address, you can do this in appsettings.json or command" +
                     " line argument --sqlHost");
             }
 
@@ -139,7 +137,7 @@ namespace ElasticTypeMapper
             }
             else if (string.IsNullOrWhiteSpace(sqlUser))
             {
-                logger.Error("You must set a MySql user, you can do this in appsettings.json or command" +
+                Console.WriteLine("You must set a MySql user, you can do this in appsettings.json or command" +
                     " line argument --sqlUser");
             }
 
@@ -149,19 +147,19 @@ namespace ElasticTypeMapper
             }
             else if (string.IsNullOrWhiteSpace(sqlSchema))
             {
-                logger.Error("You must set a MySql Schema/Databse, you can do this in appsettings.json or " +
+                Console.WriteLine("You must set a MySql Schema/Databse, you can do this in appsettings.json or " +
                     "command line argument --sqlSchema");
             }
 
             if (sqlPasswordOption.HasValue())
             {
                 sqlPassword = sqlPasswordOption.Value();
-                logger.Warn("Try not to use the MySql password as a command line parameter for security " +
+                Console.WriteLine("Try not to use the MySql password as a command line parameter for security " +
                     "reasons.\nYou can always set it in appsettings.json");
             }
             else if (string.IsNullOrWhiteSpace(sqlPassword))
             {
-                logger.Error("You must set a MySql passwor, you can do this in appsettings.json or command");
+                Console.WriteLine("You must set a MySql passwor, you can do this in appsettings.json or command");
             }
 
             if (sqlPortOption.HasValue())
@@ -170,7 +168,7 @@ namespace ElasticTypeMapper
             }
             else if (string.IsNullOrWhiteSpace(sqlPort))
             {
-                logger.Error("You must set a port, you can do this in appsettings.json or " +
+                Console.WriteLine("You must set a port, you can do this in appsettings.json or " +
                     "command line argument --sqlPort");
             }
 
