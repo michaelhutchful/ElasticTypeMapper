@@ -15,4 +15,8 @@ RUN dotnet publish ElasticTypeMapper.csproj -c Release -o /app
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
+
+RUN ["apt-get", "update"]
+RUN ["apt-get", "install", "-y", "nano"]
+
 ENTRYPOINT ["dotnet","ElasticTypeMapper.dll"]
