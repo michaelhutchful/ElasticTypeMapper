@@ -16,7 +16,7 @@
     <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
     <PackageReference Include="MySql.Data" Version="8.0.13" />
     <PackageReference Include="NEST" Version="6.4.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Packaging.Targets" Version="0.1.48" />
     <DotNetCliToolReference Include="dotnet-deb" Version="0.1.1-*" />
   </ItemGroup>
